@@ -1,0 +1,174 @@
+{% extends "home.html" %}
+{% load bootstrap_tags %}
+{% block title %}{{restaurant.name}} - Edit{% endblock %}
+{% block headextra %}
+
+<script>
+var rest_id = {{restaurant.id}};
+
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pure_min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/edit.min.js"></script>
+{% endblock %}
+{% block body %}
+<div class="container" id="recipeinfo">
+                <div class="row">
+                  <div class="span12" align="center"><br>
+                       <div class="btn-group">
+                                <a id="menu_book" href="#menu_book" class="btn btn-success active"><i class="icon-book icon-white"></i> Menu Book</a>
+                               <a id="basic_info" href="#basic_info" class="btn btn-info"><i class="icon-info-sign icon-white"></i> Info</a>
+                             
+
+                               
+                       </div>
+                          
+                  </div>
+                </div>     
+</div>
+<br><br>
+    
+<div style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:550px;height:auto;">
+<div class="container" class="tab-content">
+                <div class="row active hide" id="editbasic">
+                          <br><a id="del_res" href="#delres" data-toggle="modal" style="float:right;text-decoration:none;" title="Deletes everything">Delete this restaurant</a>
+                                   <div class="span12">
+                                  
+                                        <form enctype="multipart/form-data" method="POST" action="" class="form-vertical">
+                                               <div style="text-align:center;" id="formdiv"> 
+                                                      {{ restaurant_form|as_bootstrap }}
+                                               </div>
+                                               <div class="form-actions" align="center">
+                                                          <input type="submit" class="btn btn-info" value="Save">
+                                               </div>
+                                        </form>
+                             </div>
+                </div>
+                <div class="row " id="menubook">
+                                                <div class="span4 hide" id="foodlistspreview">
+                              <div  align="center" style="padding-top:200px;"> 
+                                  <h4>Want to make changes?</h4><h4>Click Edit</h4>
+                             </div> </div>
+                        <div class="span4" id="foodlists"><br>
+                                  <a href="{% url describe_restaurant restaurant.id%}"> <h4 style="float:left;color:green;">{{restaurant.name}}</h4></a><br>
+                                   <div class="foodlisttabs">
+                                        <ul class="nav nav-list sidenav" id="foodlist-content">
+                                                <li class="foodlist-template">
+                                                <a href="#foodlist" class="dynamicfoodlists"> Food List</a></li>
+                                        </ul><br>
+                                         <a class="btn" style="text-align:center;" href="#" id="editlist"><i class="icon-edit icon-black"></i> Edit</a>
+                                       <a class="hide btn btn-primary addlists" style="text-align:center;" href="#" id=""><i class="icon-plus icon-white"></i> Category</a><br>
+                                   </div>
+                                   <div class="currentlists hide"><br> <br>
+                                             <form class="prelists" method="POST" action="{% url editmenulist restaurant.id %}">
+                                                <div class="preaddedlists">
+                                                   <input type="text" class="oldfoodlists field input-xllarge" value="" flag="yes"/> 
+                                                   <a class="remlists" style="text-decoration:none;" href="#deleteModal"></a>
+                                                 </div>
+                                             </form> 
+                                             <form id="newfoodlists-form" method="POST" action="{% url menulist restaurant.id %}">
+                                             
+                                             </form>
+                                             <a class="btn " href="#add" id="add"><i class="icon-plus icon-black"></i></a> 
+                                            <input type="submit" class="btn btn-primary" id="savelists" value="Done"/><br>
+                                    </div>
+                                   <br><br>
+                                  
+                        </div>
+                                                <div id="editingfoodlists" class="hide span8" style="background:url({{STATIC_URL}}img/solid.png);min-height:500px;height:auto;"><div  align="center" style="padding-top:225px;"> 
+                                   <h4>Editing Food Categories </h4>
+                             </div>  </div>
+                        <div id="menuitemsbook" class="span8 container" style="background:url({{STATIC_URL}}img/solid.png);min-height:500px;height:auto;">
+                                 <div class="currentmenuitems" align="center">
+                             <div id="resultcitems" class="hide" align="center" style="padding-top:225px;"> 
+                                   <h4>No Food Categories present :( </h4><h4>Click Edit to Add </h4>
+                             </div> 
+                             <form class="preitems" method="POST" action="{% url editmenuitem restaurant.id %}">
+                             <div class="preaddeditems" align="center">
+                                 <h4 style="color:white;"></h4><hr/> <br>                                
+                                 
+                                 <div class=" edit-mini-template" align="center" >
+                                       <input type="text" class="field input-xlarge menuitems" value=""/> 
+                                       <a class="delitems" href="#"></a>
+                                       <span id=""></span>
+                                 </div>
+                                 <div align="center" class=" addfooditems-template"></div><br>
+                                 <a class="btn primary additem" style="text-decoration:none;" id="addfood" href="#addfood"><i class="icon-plus icon-black"></i> </a><br><hr/>
+                              
+                             </div>
+                             <br/>
+                             <input type="submit" class="btn btn-success hide" id="saveitems" value="Save"/>
+                             </form> 
+                              <form  id="newfooditems-tempform" class="hide inputmenuitems" method="POST" action="{% url menuitem restaurant.id %}">
+                               <div id="newmenuitemsform" class="god"></div>
+                              </form>
+
+                         </div>
+                         <div class="hide backup-edit-mini-template" align="center" >
+                                       <input type="text" class="field input-xlarge menuitems" value=""/> 
+                                       <a class="delitems" href="#"></a>
+                                       <br>
+                         </div>
+                         <div id="menuitemsresultcontent" class="hide">
+                         <div id="previewmenu"><h4 style="float:left;">&nbspMenu Book Preview - {{restaurant.name}}
+                          </h4> <a href="#" id="editagain" style="text-decoration:none;float:right;"><h5>Edit&nbsp&nbsp&nbsp</h5></a>&nbsp <a style="text-decoration:none;float:right;" href="{%url describe_restaurant restaurant.id %}"><h5>Go back&nbsp&nbsp&nbsp</h5></a></div><hr/>
+                          <h4 style="text-align:center;" id="menuresult" class=" hide">Menu Book has not been updated yet :(
+                          </h4> 
+                         <div id="menutable" class="menutable-template span5 offset1"> 
+                               <h4 class="foodheading" style="text-align:center;color:white;"></h4><br>
+                                <table class="table table-bordered" style="background:white;">
+                                 
+                                   <tr class="micon">
+                                     <td class="itname">
+                                        <a style="color:green;text-decoration:none;" class="itname"></a>
+                                     </td> 
+                                   </tr>
+                                </table><br/>
+                         </div> 
+                        </div>
+                        </div>
+                </div>
+                <div class="hide">
+                <table class="table table-bordered" style="background:white;">
+                                 
+                                   <tr class="micon">
+                                     <td class="itname">
+                                        <a style="color:green;text-decoration:none;" class="itname"></a>
+                                     </td> 
+                                   </tr>
+                                </table><br/>
+                </div>
+                <div class="modal hide fade " id="delres">
+                       <div class="modal-header">
+                            <a class="close" data-dismiss="modal" href="#">&times;</a>
+                            <h4>Delete {{restaurant.name}}</h4>
+                       </div>
+                       <div class="modal-body"> 	
+                             <p>This will permanently delete the restaurant from Foode and cannot be reverted.Sure?</p>
+                            
+                       </div>
+                       <div class="modal-footer">
+                          <a href="{% url delete_restaurant restaurant.id %}" class="modal-del btn btn-danger"> 
+                           <i class="icon-trash icon-white"></i> Delete </a>
+                           <a href="#" class="btn" data-dismiss="modal" >Cancel</a>                          
+                       </div>
+               </div>  
+                 <div class="modal hide fade " id="deleteModal">
+                       <div class="modal-header">
+                            <a class="close" data-dismiss="modal" href="#">&times;</a>
+                            <h4>Delete</h4>
+                       </div>
+                       <div class="modal-body"> 	
+                             <p>This will permanently delete all the Food Items and their ratings in this category.Sure?</p>
+                            
+                       </div>
+                       <div class="modal-footer">
+                          <a href="#" class="modal-del btn btn-danger"> 
+                           <i class="icon-trash icon-white"></i> Delete </a>
+                           <a href="#" class="btn" data-dismiss="modal" >Cancel</a>                          
+                       </div>
+               </div>  
+</div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,106 @@
+{%extends "home.html"%}
+{% load i18n %}
+{% load bootstrap_tags %}
+{% block title%}Foode - {{restaurant.name}}{%endblock%}
+{% block headextra %}
+
+<script>
+var rest_id = {{restaurant.id}};
+
+</script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/raty/js/jquery.raty.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/pure_min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/detail.min.js"></script>
+
+{%endblock%}
+
+
+{% block body %}
+<div style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:80%;height:auto;">
+<div class="container">
+              
+<br>
+
+           <div class="span5 offset3" >
+                    <div id="dispinfo" align="center">
+                                      <h4 style="color:green;">    {{ restaurant.name }}</h4>
+                                      <p>&nbsp<i class="icon-time icon-black"></i>&nbsp{{restaurant.hours}}</p>
+                                      <p>&nbsp<i class="icon-info-sign icon-black"></i>&nbsp{{restaurant.phone}}</p>
+                                      <p style="">&nbsp<i class="icon-map-marker icon-black"></i>&nbsp{{ restaurant.address }}</p>
+
+                                     
+                   </div>
+           </div>
+                   <div style="float:right;">
+
+                           <form id="search-form" class="form-horizontal" method="GET" action="{% url restaurants %}">
+                       
+                           <input class="" type="text" placeholder="Search Food Items" name="fooditem" id="searchbar">
+
+                            </form>
+
+<a style="text-decoration:none;float:right;" class="" href="{% url edit_restaurant restaurant.id %}"><h5>Edit</h5> </a>
+   
+                   </div>
+
+
+</div>
+</div>
+<div style="background:url({{STATIC_URL}}img/iron.png);min-height:500px;height:auto;">
+<div class="container">
+              
+
+<br>
+           <div class="span6" style="margin-left:26%;">                                    
+<br>
+                   <div id="menucontent" class="well"  style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:400px;height:auto;">
+                          <div id="menuresult" class=" hide" align="center" style="padding-top:130px;"><h3 style="text-align:center;" >Menu Book is empty</h3> 
+
+
+                                     <a class="btn primary" href="{% url edit_restaurant restaurant.id %}"> <i class="icon-edit icon-black"></i>{% trans " Update" %} </a>
+                                   
+
+                       
+</div>
+                                
+                                   
+                         <div id="menutable" class="menutable-template"> 
+                               <h4 style="text-align:center;"></h4><br>
+                                <table class="table table-bordered" style="background:;">
+                                 
+                                   <tr class="micon">
+                                     <td class="itname">
+                                        <a style="color:green;text-decoration:none;" class="itname"></a>
+                                     </td> 
+
+
+                                    <td class="rstar" width="30%"></td>
+                                   </tr>
+                                </table><br/>
+                         </div> 
+                          <div align="center">  <a id="plusitems" href="#addmenuitems" class="btn btn-primary hide"><i class="icon-plus icon-white"></i> Food</a><div><br>
+                        </div>
+                        <div id="addmenuitems" class="hide">
+                              <div class="catg" id="menuitems_content">
+                                       <form id="menuitemsform" class="inputmenuitems" method="POST" action="{% url menuitem restaurant.id %}">
+                                          <div class="additems-template">
+                                             <h4></h4>
+                                             <p class="new-fooditems"></p><hr/>
+                                          </div> 
+                                       </form>
+                              </div>
+                              <div>
+                              <a class="btn btn-primary hide" href="#" id="doneitems">Done</a> 
+                              <a class="btn" href="#menutable" id="canceladd">Cancel</a>
+                              </div><br>
+
+                   </div>
+               
+           </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+
+</html>
