@@ -1,0 +1,28 @@
+<br><br><br>
+       <div class="container"><div class="row-fluid">
+               <div class="span12" align="center;">
+                <p style="font-size:100px;color:green;text-align:center;" title="Explore & Eat the Best">  foode</p>
+               </div></div>
+               <div class="row-fluid">
+                   <div class="span12" style="margin-top:20%;" >
+                       <div class="input-append" align="center;">
+
+                       <form class="form-horizontal" method="GET" action="{% url restaurants %}">
+
+                          <input class="xlarge" type="text" placeholder="Enter Food Item" name="fooditem" style="height:40px;width:80%" autofocus="autofocus">
+                           <button class="btn btn-info" type="submit" style="height:50px;" title="Find the Best in Town"><i class="icon-search icon-white"></i></button>
+                       </form>
+                       </div>
+                   </div>
+               
+             </div>
+        </div>
+
+<div class="container">
+ <div class="span3 offset4" style="margin-top:6%;" align="center">
+          <a href="{%url add_restaurant%}" style="text-decoration:none;"><h5>Add a Restaurant</h5></a>
+
+
+ </div>   
+
+</div>

@@ -1,0 +1,82 @@
+
+<div class="container">
+              
+<br>
+
+           <div class="span12" >
+                    <div id="dispinfo" align="center">
+                                     <form id="search-form" class="form-horizontal" method="GET" action="{% url restaurants %}">
+                       
+                           <input class="" type="text" placeholder="Search Food Items" name="fooditem" id="searchbar">
+
+                            </form>
+
+                                      <h4 style="color:green;">    {{ restaurant.name }}</h4>
+                                      <p> <i class="icon-time icon-black"></i> {{restaurant.hours}}</p>
+                                      <p> <i class="icon-info-sign icon-black"></i> {{restaurant.phone}}</p>
+                                      <p style=""> <i class="icon-map-marker icon-black"></i> {{ restaurant.address }}</p>
+
+<a style="text-decoration:none;" class="" href="{% url edit_restaurant restaurant.id %}"><h5>Edit</h5> </a>
+   
+                                     
+                   </div>
+           </div>
+                  
+
+
+</div>
+
+
+
+              
+
+
+           <div class="span12">                                    
+
+                   <div id="menucontent" class="well"  style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:400px;height:auto;">
+                          <div id="menuresult" class=" hide" align="center" style="padding-top:130px;"><h3 style="text-align:center;" >Menu Book is empty</h3> 
+
+
+                                     <a class="btn primary" href="{% url edit_restaurant restaurant.id %}"> <i class="icon-edit icon-black"></i> Update</a>
+                                   
+
+                       
+</div>
+                                
+                                   
+                         <div id="menutable" class="menutable-template" align="center"> 
+                               <h4 style="text-align:center;"></h4><br>
+                                <table class="table table-bordered" style="background:;">
+                                 
+                                   <tr class="micon">
+                                     <td class="itname">
+                                        <a style="color:green;text-decoration:none;" class="itname"></a>
+                                     </td> 
+
+
+                                    <td class="rstar" width="30%"></td>
+                                   </tr>
+                                </table><br/>
+                         </div> 
+                          <div align="center">  <a id="plusitems" href="#addmenuitems" class="btn btn-primary hide"><i class="icon-plus icon-white"></i> Food</a><div><br>
+                        </div>
+                        <div id="addmenuitems" class="hide">
+                              <div class="catg" id="menuitems_content">
+                                       <form id="menuitemsform" class="inputmenuitems" method="POST" action="{% url menuitem restaurant.id %}">
+                                          <div class="additems-template">
+                                             <h4></h4>
+                                             <p class="new-fooditems"></p><hr/>
+                                          </div> 
+                                       </form>
+                              </div>
+                              <div>
+                              <a class="btn btn-primary hide" href="#" id="doneitems">Done</a> 
+                              <a class="btn" href="#menutable" id="canceladd">Cancel</a>
+                              </div><br>
+
+                   </div>
+               
+           </div>
+    </div>
+    
+

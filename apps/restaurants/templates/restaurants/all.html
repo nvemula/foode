@@ -4,58 +4,10 @@
 
 
 {% block body %}
-    <div class="container" id="recipeinfo">
-                <div class="row">
-                  <div class="span12" align="center" style="padding-top:3%;">
-                       <div class="input-append">
-                       <form class="form-horizontal" method="GET" action="{% url restaurants %}">
-           <input class="input-xxlarge" type="text" placeholder="Enter Food Item" name="fooditem" value="{{menuitem}}" style="height:30px;width:50%;">
-                           <button class="btn btn-info" type="submit" style="height:40px;"><i class="icon-search icon-white"></i></button>
-                       </form>
-                       </div>
-                   </div>
-                   
-     </div>     </div>
-    
-
-<div style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:500px;height:auto;">
-<div class="container">
-  {% if restaurants %}
-
-              
-
-<br>
-           <div class="span6" style="margin-left:25%;" >
-    
-
-            {% for restaurant in restaurants %}
-                   <table class="table table-bordered" style="background:white;">
-                
-                <tr>
-                    <td colspan="2">
-                        <h4><a href="{%url describe_restaurant restaurant.id %}" style="display:inline;float:left;">{{ restaurant.name }}</a></h4>
-                    </td>
-                </tr>
-
-                              <tr>   <td><i class="icon-info-sign icon-black"></i>&nbsp      {{ restaurant.phone }}</td><td><i class="icon-time icon-black"></i>&nbsp{{restaurant.hours}}</td></tr>
-                                 <tr>    <td colspan="2">  <i class="icon-map-marker icon-black"></i>&nbsp{{ restaurant.address }}</td></tr>
-
-                        
-
-                       
-                       
-                    </td>
-                    
-                </tr>
-               {% endfor %}
-                   </table>
-         </div>
-    {% else %}
-        <h3 class="span12" align="center" style="margin-top:20%;text-align:center;">{% trans "No restaurants found" %}</h3>
-    {% endif %}
-
-    </div>
-    </div>
+    {% if flavour == "mobile" %}
+        {%include "restaurants/mobile/allmobile.html"%}
+       {%else%}{%include "restaurants/desktop/alldesktop.html"%}
+       {%endif%}
 {% endblock %}
 
 

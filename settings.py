@@ -90,6 +90,7 @@ SECRET_KEY = 'ce=8cd79t4)(qt!qyxh7rdq*d48!9!fz59x@xxwhf#-^o^uu!r'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
+   'django_mobile.loader.Loader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
@@ -101,6 +102,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+      'django_mobile.middleware.MobileDetectionMiddleware',
+'django_mobile.middleware.SetFlavourMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -121,7 +124,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.static",
-
+"django_mobile.context_processors.flavour",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
     
@@ -136,7 +139,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'django_mobile',
     #apps from foode.apps
     'foode.apps.django_forms_bootstrap',
     'foode.apps.djangoratings',

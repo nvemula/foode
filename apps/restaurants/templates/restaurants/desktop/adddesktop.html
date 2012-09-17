@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load bootstrap_tags %}
+
+<div style="background-image:url({{STATIC_URL}}img/resbg.jpg);min-height:700px;height:auto;" >
+     <br>
+      <div class="container">
+   
+      
+    <br><div class="row">
+   <div class="span6 offset3" style="background:white;">
+   <br><h3 style="text-align:center;color:silver;"> Add Restaurant</h3><hr/>
+    <form enctype="multipart/form-data" method="POST" action="" class="form-horizontal" >
+       {% csrf_token %}
+        <fieldset class="inlineLabels">
+            {{ restaurant_form|as_bootstrap }}
+            <div class="form-actions">
+                <input type="submit" class="btn btn-success" value="{% trans 'Add' %}">
+                <a href="{% url home %}" class="btn" >Cancel</a> 
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+  </div></div>
