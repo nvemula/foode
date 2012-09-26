@@ -7,13 +7,50 @@ var table_backup = '<tr class="micon"><td class="itname"><a style="color:green;t
 var input_backup = '<input type="text" class="field input-xlarge menuitems" value=""/><a class="delitems" href="#"></a>';
 var prelists_backup = '<input type="text" class="oldfoodlists field input-xllarge" value="" flag="yes"/><a class="remlists" style="text-decoration:none;" href="#deleteModal"></a>';
 $(function(){
+ 
 foodlistgo();
   mcount++;
+$("#saveslug").click(function(){
+  $.ajax({
+        data: $("#slug-editform").serialize(), // get the form data
+                type: $("#slug-editform").attr('method'), // GET or POST
+                url: $("#slug-editform").attr('action'), // the file to call
+                success: function(response) { // on success..
+                    $("#slug_result").html(response); // update the DIV
+                }
+            });
+      return false
+    });
+
+
 $('#basic_info').click(function () {
     $(this).addClass('active');
     $('div#editbasic').show();
     $('div#menubook').hide();
-    $('#menu_book').removeClass('active');    
+    $('#menu_book').removeClass('active');
+    $('#basicsettings').show();    
+    $('#advanced').hide();    
+    $('#advancedtab').removeClass('active');
+    $("#basictab").addClass('active');
+     
+});
+
+$("#advancedtab").click(function(){
+$("#basictab").parent().removeClass('active');
+$('#advancedtab').parent().addClass('active');
+
+$('#basicsettings').hide();    
+    $('#advanced').show();    
+
+});
+
+$("#basictab").click(function(){
+$("#advancedtab").parent().removeClass('active');
+$('#basictab').parent().addClass('active');
+
+$('#basicsettings').show();    
+    $('#advanced').hide();    
+
 });
 
 $('#menu_book').click(function () {
@@ -410,6 +447,5 @@ else{
 $(".micon:not(:first)").remove();
 }
 }
-
 
 

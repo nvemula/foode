@@ -8,7 +8,7 @@ var rest_id = {{restaurant.id}};
 
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/pure_min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/edit.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/edit.js"></script>
 {% endblock %}
 {% block body %}
 <div class="container" id="recipeinfo">
@@ -30,9 +30,27 @@ var rest_id = {{restaurant.id}};
 <div style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:550px;height:auto;">
 <div class="container" class="tab-content">
                 <div class="row active hide" id="editbasic">
-                          <br><a id="del_res" href="#delres" data-toggle="modal" style="float:right;text-decoration:none;" title="Deletes everything">Delete this restaurant</a>
-                                   <div class="span12">
-                                  
+                                  <div class="span4">
+                                      <ul class="nav nav-list sidenav">
+
+                                        <li class="active"><a href="#" id="basictab"> Basic<i class="icon-chevron-right"></i></a></li>
+                                               <li> <a href="#" id="advancedtab"> Advanced<i class="icon-chevron-right"></i></a></li>
+                                        </ul>
+                                   </div>
+                                   <div class="span4">
+                                       <div id="advanced" class="hide">
+                                        <br>
+                                     <form  enctype="multipart/form-data" id="slug-editform" method="POST" action="{%url slugofrest restaurant.id %}" class="form-inline">
+                                      <legend>URL</legend>
+                                             <span class="label label-warning" id="slug_result">The URL should be unique</span><hr/>
+                                      <label for="slug">foode.me/</label> 
+                                          <input type="text" class="input-large" name="slug" value="{{restaurant.get_slug_name}}" />
+                                          <a id="saveslug" class="btn btn-info" href="#">Save</a>
+                                     </form> 
+                                     <legend>Delete</legend>
+                                        <a id="del_res" href="#delres" data-toggle="modal" style="text-decoration:none;" title="Deletes everything">Delete this restaurant</a>        
+                                     </div>
+                                      <div id="basicsettings"><br>
                                         <form enctype="multipart/form-data" method="POST" action="" class="form-vertical">
                                                <div style="text-align:center;" id="formdiv"> 
                                                       {{ restaurant_form|as_bootstrap }}
@@ -41,6 +59,8 @@ var rest_id = {{restaurant.id}};
                                                           <input type="submit" class="btn btn-info" value="Save">
                                                </div>
                                         </form>
+                                      </div>
+                                     
                              </div>
                 </div>
                 <div class="row " id="menubook">
@@ -106,6 +126,7 @@ var rest_id = {{restaurant.id}};
                          <div class="hide backup-edit-mini-template" align="center" >
                                        <input type="text" class="field input-xlarge menuitems" value=""/> 
                                        <a class="delitems" href="#"></a>
+                                                                                 <span id=""></span>
                                        <br>
                          </div>
                          <div id="menuitemsresultcontent" class="hide">

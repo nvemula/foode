@@ -13,6 +13,8 @@ from django.utils.translation import ugettext_lazy as _
 #from djangoratings
 from foode.apps.djangoratings.fields import RatingField
 
+#from slogger
+from apps.slogger.models import *
 
 class Restaurant(models.Model):
     """
@@ -29,6 +31,10 @@ class Restaurant(models.Model):
         return ("describe_restaurant", [self.pk])
     get_absolute_url = models.permalink(get_absolute_url)
     
+    def get_slug_name(self):
+        s = Slog.objects.get(object_id=self.pk,objname=self.name)
+        return s.slugname
+
     def __unicode__(self):
         return self.name
     

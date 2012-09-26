@@ -112,11 +112,11 @@
 
 
   /* Sidenav */
-  .bs-docs-sidenav {
+  .sidenav {
     width: auto;
     margin-bottom: 20px;
   }
-  .bs-docs-sidenav.affix {
+  .sidenav.affix {
     position: static;
     width: auto;
     top: 0;

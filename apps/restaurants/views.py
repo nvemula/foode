@@ -1,3 +1,4 @@
+from __future__ import division
 from operator import itemgetter
 
 
@@ -25,6 +26,9 @@ from foode.apps.djangoratings.models import *
 
 #from python dict to json parsing py2js.py file
 from foode.apps.restaurants.pyds2json import *
+
+#from slogger urlresolver
+from apps.slogger.models import *
 
 def allrestaurants(request):
     """ Returns the all restaurants list, ordered by added date. Called directory in urls.py"""
@@ -62,7 +66,7 @@ def restaurants(request):
                  else: 
                     sco =0 
                  res_data["restaurant"] = mitem.resname
-                 res_data[sco] =mitem.menuitem
+                 res_data[mitem.menuitem] = str(sco)
                  if menuitem.lower() == mitem.menuitem.lower():
                     exactitems.insert(ecount,res_data)
                     ecount += 1
@@ -100,6 +104,11 @@ def add_restaurant(request):
         # from ipdb import set_trace; set_trace()
           new_restaurant = restaurant_form.save(commit=False)
           new_restaurant.save(csrf(request))
+          naam = request.POST['name']
+          phone = request.POST['phone']
+          restaurant = Restaurant.objects.get(name=naam,phone=phone)
+          s = Slog(content_object=restaurant,objname=naam)
+          s.save()
           return HttpResponseRedirect(reverse("allrestaurants"))
     else:
            restaurant_form = RestaurantForm()
@@ -114,13 +123,18 @@ def add_restaurant(request):
 @csrf_exempt
 def edit_restaurant(request, restaurant_id):
     """ Returns the edit page for a restaurant by taking restaurant_id as parameter """
-    restaurant = Restaurant.objects.get(id=restaurant_id)          
+    restaurant = Restaurant.objects.get(id=restaurant_id)  
+    ctype = ContentType.objects.get(app_label="restaurants", model="restaurant")
+    s = Slog.objects.get(content_type=ctype,object_id=restaurant.id)        
     if request.method == "POST":
        restaurant_form = RestaurantEditForm(request.POST, request.FILES, instance=restaurant)
        restaurant_form.is_update = True
        #from ipdb import set_trace; set_trace()
        if restaurant_form.is_valid():
           restaurant_form.save()
+          if s:
+             s.objname = restaurant.name
+             s.save()
           return HttpResponseRedirect(reverse("allrestaurants"))             
        else:
           restaurant_form = RestaurantEditForm(instance=restaurant)
@@ -139,6 +153,7 @@ def delete_restaurant(request, restaurant_id):
     """ Deletes a restaurant,menu from the database by taking restaurant id as a parameter """
     restaurant = get_object_or_404(Restaurant, id=restaurant_id)
     ctype = ContentType.objects.get(app_label="restaurants", model="menuitem")
+    crtype = ContentType.objects.get(app_label="restaurants", model="restaurant")
     menulists = MenuList.objects.filter(res=restaurant)
     for mlist in menulists:
        items = MenuItem.objects.filter(menulist=mlist)
@@ -153,6 +168,9 @@ def delete_restaurant(request, restaurant_id):
                   rsc.delete()
            item.delete()
        mlist.delete()
+    s = Slog.objects.get(content_type=crtype,object_id=restaurant.id)        
+    if s:
+       s.delete()
     restaurant.delete()
     return HttpResponseRedirect(reverse("allrestaurants"))
 
@@ -328,6 +346,4 @@ def restaurantshuffle(request):
     rid = rest.id
     return HttpResponseRedirect(reverse('describe_restaurant',args=[rid]))
 
-
- 
 

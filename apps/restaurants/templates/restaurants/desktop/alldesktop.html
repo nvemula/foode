@@ -2,7 +2,7 @@
                 <div class="row">
                   <div class="span12" align="center" style="padding-top:3%;">
                        <div class="input-append">
-                       <form class="form-horizontal" method="GET" action="{% url restaurants %}">
+                       <form class="form-horizontal" method="GET" action="/restaurants/">
            <input class="input-xxlarge" type="text" placeholder="Enter Food Item" name="fooditem" value="{{menuitem}}" style="height:30px;width:50%;">
                            <button class="btn btn-info" type="submit" style="height:40px;"><i class="icon-search icon-white"></i></button>
                        </form>
@@ -27,7 +27,7 @@
                 
                 <tr>
                     <td colspan="2">
-                        <h4><a href="{%url describe_restaurant restaurant.id %}" style="display:inline;float:left;">{{ restaurant.name }}</a></h4>
+                        <h4><a href="/{{restaurant.get_slug_name}}" style="display:inline;float:left;">{{ restaurant.name }}</a></h4>
                     </td>
                 </tr>
 

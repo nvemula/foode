@@ -8,7 +8,7 @@ from foode.apps.restaurants.models import Restaurant
 urlpatterns = patterns('foode.apps.restaurants.views',
          url(r"^$", direct_to_template, {
         "template": "home.html",
-     }, name="home"),#home page or landing page
+        }, name="home"),#home page or landing page
         url(r'^restaurants/$', 'restaurants', name="restaurants"),#search results page
         url(r'^directory/$', 'allrestaurants', name="allrestaurants"),#shows all restaurants
         url(r'^(\d+)/menulist/$', 'menulist', name="menulist"),#creates a new menulist/food category
@@ -29,6 +29,10 @@ urlpatterns = patterns('foode.apps.restaurants.views',
         url(r'^(\d+)/edit/$', 'edit_restaurant', name="edit_restaurant"),#edit a restaurant
         url(r'^(\d+)/delete/$', 'delete_restaurant', name="delete_restaurant"),#delete a restaurant
         url(r'^restaurantshuffle/$', 'restaurantshuffle', name="restaurantshuffle"),#shuffle
-
+                
 )
 
+urlpatterns += patterns('foode.apps.slogger.views',        
+                  url(r'^(?P<slug>[.a-zA-Z0-9_-]+)/$', 'universal_slog_handler', name="describe_restaurant"),#restaurant details page
+               url(r'^(\d+)/slugofrest/$', 'save_slugofrest', name="slugofrest"),#save a restaurant's slug
+)

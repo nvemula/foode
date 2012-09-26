@@ -25,7 +25,7 @@
                 
                 <tr>
                     <td colspan="2">
-                        <h4><a href="{%url describe_restaurant restaurant.id %}" style="display:inline;float:left;">{{ restaurant.name }}</a></h4>
+                        <h4><a href="/{{restaurant.get_slug_name}}" style="display:inline;float:left;">{{ restaurant.name }}</a></h4>
                     </td>
                 </tr>
 

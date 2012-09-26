@@ -144,6 +144,9 @@ INSTALLED_APPS = (
     'foode.apps.django_forms_bootstrap',
     'foode.apps.djangoratings',
     'foode.apps.restaurants',
+    'autoslug',
+    'foode.apps.slogger',
+     
 
     # Uncomment the next line to enable the admin:
      'django.contrib.admin',

@@ -10,6 +10,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^',include("foode.apps.restaurants.urls")),
+             url(r'^(?P<slug>\w+)/$', 'restaurant', name="describe_restaurant"),#restaurant details page
     # Examples:
     # url(r'^$', 'foode.views.home', name='home'),
     # url(r'^foode/', include('foode.foo.urls')),

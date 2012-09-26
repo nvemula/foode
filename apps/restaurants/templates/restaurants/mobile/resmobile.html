@@ -25,9 +25,9 @@
                 {% for key,value in data.items %}
                 {%ifequal key "restaurant"%}<tr>
                     <td>
-                        <h4><a href="{%url describe_restaurant value.id %}" style="display:inline;float:left;">{{ value.name }}</a></h4></td></tr>
+                        <h4><a href="/{{value.get_slug_name}}" style="display:inline;float:left;">{{ value.name }}</a></h4></td></tr>
          <tr><td colspan="2"> 
-         <span style="display:inline;float:left;color:green;">{{data.items.0.1}}&nbsp&nbsp<div style="display:inline;float:right;" class="rstar" rating="{{data.items.0.0}}"></div></span></td> </tr> 
+         <span style="display:inline;float:left;color:green;">{{data.items.0.0}}&nbsp&nbsp<div style="display:inline;float:right;" class="rstar" rating="{{data.items.0.1}}"></div></span></td> </tr> 
                 
                  <tr>   <td> <i class="icon-info-sign icon-black"></i> {{ value.phone }}</td><td><i class="icon-time icon-black"></i> {{value.hours}}</td></tr>
                                  <tr>    <td colspan="2"> <i class="icon-map-marker icon-black"></i> {{ value.address }}</td></tr>
