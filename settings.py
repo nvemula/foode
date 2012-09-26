@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_mobile',
+    'gunicorn',
     #apps from foode.apps
     'foode.apps.django_forms_bootstrap',
     'foode.apps.djangoratings',
