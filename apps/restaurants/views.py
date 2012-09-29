@@ -16,6 +16,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect,csrf_exempt
 
+#from haystack
+from haystack.query import SearchQuerySet
+
 #from restaurants
 from foode.apps.restaurants.models import *
 from foode.apps.restaurants.forms import *
@@ -41,9 +44,6 @@ def allrestaurants(request):
 def restaurants(request):
     """ Returns the restaurants with the fooditems ordered by taste in descending order """
     if request.method == "GET":
-       count = 0
-       ecount = 0
-       mcount = 0
        restaurants = []
        exactitems = []
        matcheditems = []
@@ -68,11 +68,9 @@ def restaurants(request):
                  res_data["restaurant"] = mitem.resname
                  res_data[mitem.menuitem] = str(sco)
                  if menuitem.lower() == mitem.menuitem.lower():
-                    exactitems.insert(ecount,res_data)
-                    ecount += 1
+                    exactitems.append(res_data)
                  else:
-                    matcheditems.insert(mcount,res_data)
-                    mcount +=1
+                    matcheditems.append(res_data)
              exactitems = sorted(exactitems,reverse=True) 
              matcheditems = sorted(matcheditems,reverse=True) 
              restaurants = exactitems + matcheditems
@@ -345,5 +343,17 @@ def restaurantshuffle(request):
     rest = choice(res)
     rid = rest.id
     return HttpResponseRedirect(reverse('describe_restaurant',args=[rid]))
+
+@csrf_exempt
+def autocomplete_results(request):
+    """Returns a list of words for users to search easily"""
+    if request.method=="GET" and request.is_ajax:
+       results = []
+       query = request.GET["fooditem"]
+       s = SearchQuerySet().autocomplete(content_auto=query)[:5]
+       for i in s:
+           results.append(i.name)
+       return HttpResponse(dumps(results),mimetype='application/json')
+
 
 

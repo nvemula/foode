@@ -29,6 +29,7 @@ urlpatterns = patterns('foode.apps.restaurants.views',
         url(r'^(\d+)/edit/$', 'edit_restaurant', name="edit_restaurant"),#edit a restaurant
         url(r'^(\d+)/delete/$', 'delete_restaurant', name="delete_restaurant"),#delete a restaurant
         url(r'^restaurantshuffle/$', 'restaurantshuffle', name="restaurantshuffle"),#shuffle
+        url(r'^search/autocomplete/$', 'autocomplete_results', name="autocomplete_results"),#autocomplete_results
                 
 )
 
