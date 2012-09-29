@@ -350,9 +350,11 @@ def autocomplete_results(request):
     if request.method=="GET" and request.is_ajax:
        results = []
        query = request.GET["fooditem"]
-       s = SearchQuerySet().autocomplete(content_auto=query)[:5]
+       s = SearchQuerySet().autocomplete(content_auto=query)
        for i in s:
            results.append(i.name)
+       results = list(set(results))
+       results = results[:5]
        return HttpResponse(dumps(results),mimetype='application/json')
 
 
