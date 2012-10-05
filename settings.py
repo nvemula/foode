@@ -77,6 +77,7 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+GEOIP_PATH = os.path.join(PROJECT_ROOT, "locationdata")
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -127,7 +128,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 "django_mobile.context_processors.flavour",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
-    
+    "foode.apps.restaurants.context_processors.location",
 
 ]
 

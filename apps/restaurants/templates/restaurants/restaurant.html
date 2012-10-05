@@ -11,9 +11,9 @@ var rest_id = {{restaurant.id}};
   <script type="text/javascript" src="{{ STATIC_URL }}js/raty/js/jquery.raty.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/pure_min.js"></script>
 {% if flavour == "mobile" %}
-<script type="text/javascript" src="{{ STATIC_URL }}js/mobile.detail.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/mobile.detail.js"></script>
 {%else%}
-<script type="text/javascript" src="{{ STATIC_URL }}js/detail.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/detail.js"></script>
 {%endif%}
 {%endblock%}
 
@@ -21,7 +21,8 @@ var rest_id = {{restaurant.id}};
 {% block body %}
 {% if flavour == "mobile" %}
         {%include "restaurants/mobile/detmobile.html"%}
-       {%else%}{%include "restaurants/desktop/detdesktop.html"%}
+       {%else%}
+        {%include "restaurants/desktop/detdesktop.html"%}
        {%endif%}
 {% endblock %}
 

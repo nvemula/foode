@@ -9,6 +9,7 @@ var prelists_backup = '<input type="text" class="oldfoodlists field input-xllarg
 $(function(){
  
 foodlistgo();
+
   mcount++;
 $("#saveslug").click(function(){
   $.ajax({
@@ -57,6 +58,7 @@ $('#menu_book').click(function () {
   $(this).addClass('active');
   $('#menubook').show();
   $('div#editbasic').hide();
+
   $('#basic_info').removeClass('active');  
   if(mcount>0){
     cleaner();
@@ -193,7 +195,9 @@ function foodlistgo(){
                                           $('#foodlist-content').hide();
                                   }
 }});/*end of ajax*/
-
+ $('#foodlistspreview').hide();
+$('.foodlisttabs').show();
+               $('#foodlists').show();
 }/*end of foodlistgo*/
 
 $('.delitems').live("click",function() {

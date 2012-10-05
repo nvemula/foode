@@ -15,6 +15,7 @@ from django.db.models import Q
 from django.contrib.contenttypes.models import ContentType
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect,csrf_exempt
+from django.contrib.gis.geoip import GeoIP
 
 #from haystack
 from haystack.query import SearchQuerySet
@@ -30,8 +31,11 @@ from foode.apps.djangoratings.models import *
 #from python dict to json parsing py2js.py file
 from foode.apps.restaurants.pyds2json import *
 
+from foode.apps.restaurants.googlemaps import *
 #from slogger urlresolver
 from apps.slogger.models import *
+
+loc = "My Location"
 
 def allrestaurants(request):
     """ Returns the all restaurants list, ordered by added date. Called directory in urls.py"""
@@ -40,50 +44,89 @@ def allrestaurants(request):
         "restaurants": restaurants,
     }, context_instance=RequestContext(request))
     
-
+@csrf_protect 
 def restaurants(request):
     """ Returns the restaurants with the fooditems ordered by taste in descending order """
-    if request.method == "GET":
+    if request.method == "POST":
        restaurants = []
        exactitems = []
        matcheditems = []
-       menuitem = request.GET['fooditem']
+       menuitems = []
+       rests=[]
+       menuitem = request.POST['fooditem']
        if menuitem:
-          menuitems = MenuItem.objects.filter(menuitem__contains=menuitem)
+          loc = request.POST['location']
+          g = GeoIP()
+          if loc=="My Location":
+             longi = request.POST['longitude'] 
+             lati = request.POST['latitude']
+             if not longi=="":
+                gmaps = GoogleMaps()
+                destination = gmaps.latlng_to_address(float(lati),float(longi))
+                newdt = destination.split(',')
+                l = len(newdt)
+                addr = str(newdt[l-4][1:])
+                city = str(newdt[l-3][1:])
+                rests = Restaurant.objects.filter(address__contains=city)
+                arests = rests.filter(address__contains=addr)
+                if l-5>=0:
+                   laddr= str(newdt[l-5][1:])
+                   lrests=rests.filter(address__contains=laddr)
+                if lrests:
+                   rests=lrests
+             else:
+                cty = g.city(str(request.META['REMOTE_ADDR']))
+                if not cty==None:
+                   rests = Restaurant.objects.filter(address__contains=cty['city'])
+          if not loc=="":
+             if not loc=="My Location":
+                rests = Restaurant.objects.filter(address__contains=loc).order_by("-added") 
+          if loc=="":
+                city = g.city(request.META['REMOTE_ADDR'])
+                if not city==None:
+                   rests = Restaurant.objects.filter(address__contains=city['city'])
+          for rest in rests:
+              mitems = MenuItem.objects.filter(menuitem__contains=menuitem,resname=rest)
+              if mitems:
+                 menuitems.append(mitems[0])
           if menuitems:
-             ctype = ContentType.objects.get(app_label="restaurants", model="menuitem")
-             for mitem in menuitems:
-                 res_data = {}
-                 rscore = Vote.objects.filter(content_type=ctype,object_id=mitem.id)[0:50]
-                 top50 = len(rscore)
-                 if rscore:
-                    sco = 0
-                    i=0
-                    while (i<top50):
-                        sco += rscore[i].score
-                        i+=1
-                    sco = sco/top50
-                 else: 
-                    sco =0 
-                 res_data["restaurant"] = mitem.resname
-                 res_data[mitem.menuitem] = str(sco)
-                 if menuitem.lower() == mitem.menuitem.lower():
-                    exactitems.append(res_data)
-                 else:
-                    matcheditems.append(res_data)
-             exactitems = sorted(exactitems,reverse=True) 
-             matcheditems = sorted(matcheditems,reverse=True) 
-             restaurants = exactitems + matcheditems
-             return render_to_response("restaurants/restaurants.html", {
-                  "restaurants":restaurants,
-                  "menuitem":menuitem,
-                  }, context_instance=RequestContext(request))
+                   ctype = ContentType.objects.get(app_label="restaurants", model="menuitem")
+                   for mitem in menuitems:
+                       res_data = {}
+                       rscore = Vote.objects.filter(content_type=ctype,object_id=mitem.id)[0:50]
+                       top50 = len(rscore)
+                       if rscore:
+                          sco = 0
+                          i=0
+                          while (i<top50):
+                              sco += rscore[i].score
+                              i+=1
+                          sco = sco/top50
+                       else: 
+                          sco =0 
+                       res_data["restaurant"] = mitem.resname
+                       res_data[mitem.menuitem] = str(sco)
+                       if menuitem.lower() == mitem.menuitem.lower():
+                          exactitems.append(res_data)
+                       else:
+                          matcheditems.append(res_data)
+                   exactitems = sorted(exactitems,reverse=True) 
+                   matcheditems = sorted(matcheditems,reverse=True) 
+                   restaurants = exactitems + matcheditems
+                   return render_to_response("restaurants/restaurants.html", {
+                       "restaurants":restaurants,
+                       "location":loc,
+                       "menuitem":menuitem,
+                    }, context_instance=RequestContext(request))
           else:   
-             return render_to_response("restaurants/restaurants.html", {
-               "restaurants":restaurants,
-               "menuitem":menuitem,
-                }, context_instance=RequestContext(request))
+                return render_to_response("restaurants/restaurants.html", {
+                       "restaurants":restaurants,
+                       "location":loc,
+                       "menuitem":menuitem,
+                      }, context_instance=RequestContext(request))
        else:
+          return HttpResponseRedirect(reverse("home"))
+    else:
           return HttpResponseRedirect(reverse("home"))
 
 def restaurant(request, restaurant_id):
@@ -97,7 +140,10 @@ def add_restaurant(request):
     """ Adds a new restaurant to the database.Also,returns the form  """
     # POST request
     if request.method == "POST":
+       res_form = RestaurantForm()
        restaurant_form = RestaurantForm(request.POST, request.FILES)
+       if not restaurant_form.has_changed():
+          return HttpResponseRedirect(reverse('add_restaurant'))
        if restaurant_form.is_valid():
         # from ipdb import set_trace; set_trace()
           new_restaurant = restaurant_form.save(commit=False)
@@ -127,6 +173,12 @@ def edit_restaurant(request, restaurant_id):
     if request.method == "POST":
        restaurant_form = RestaurantEditForm(request.POST, request.FILES, instance=restaurant)
        restaurant_form.is_update = True
+       if request.POST['name']=="":
+          restaurant_form = RestaurantEditForm(instance=restaurant)
+          return render_to_response("restaurants/edit.html", {
+            "restaurant_form": restaurant_form,
+            "restaurant": restaurant,
+            }, context_instance=RequestContext(request)) 
        #from ipdb import set_trace; set_trace()
        if restaurant_form.is_valid():
           restaurant_form.save()

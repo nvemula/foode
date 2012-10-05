@@ -1,9 +1,12 @@
 var table_backup = '<tr class="micon"><td class="itname"><a style="color:green;text-decoration:none;" class="itname"></a></td> <td class="rstar" width="30%"></td></tr>';
 
    $(document).ready(function(){
+$("#side-bar").addClass('animated fadeInLeft');
 go();
+$("#menucontent").addClass('animated fadeInRight');
 function go(){
-$("#menucontent").show();
+
+
 $.ajax({url:"/menulistview/" +rest_id+"/",success:function(result){
   if(result.menulists.length!=0)
      { 
@@ -17,7 +20,7 @@ $.ajax({url:"/menulistview/" +rest_id+"/",success:function(result){
                            'tr.micon':{
                            'itm<-tmp.menuitems':{
                                'a.itname':'itm.itemname',
-                                'a.itname@href':'/restaurants/?fooditem=#{itm.itemname}',
+                                'a.itname@href':'#',
                                 'td.rstar@id':'rstar#{itm.id}', 
                                  'td.rstar@rating':'itm.rrating',         
                              }    
@@ -33,7 +36,10 @@ $('#menuresult').show();
 }  
 
       $('.rstar').raty({
-
+     size:25,
+     starOn:'on-big.png',
+     starOff:'off-big.png',
+     starHalf:'half-big.png', 
      start: function() {
      return $(this).attr('rating');
   },
@@ -41,14 +47,16 @@ $('#menuresult').show();
     starid = $(this).attr('id');
     $.ajax({url:"/ratemenuitem/"+starid+"/"+score+"/",success:function(result){   
  }});
-  } 
+  }
   });
  }});  
 
 }//end of go :)
 
 $('#plusitems').live("click",function(){
+
 $('.menutable-template').hide();
+$('#addmenuitems').addClass('animated fadeInDown');
 $('#addmenuitems').show();
 $(this).hide();
 $.ajax({url:"/editmenulistview/" +rest_id+"/",success:function(result){   
@@ -83,7 +91,7 @@ $('#plusitems').show();
 	$('.additem').live("click",function() {
                 $('#doneitems').show();
                 var aid = $(this).attr('id'); 
-        var template='<hr"/"><input type="text" class="input-xlarge field listitems" name="listitem'+aid +'z'+ j +'" id="menuitemrem' + j +'" value="Item""/"><a href="#'+aid+'" class="remove removeitems" style="text-decoration:none;text-align:center;" id="rem' + j +'">&nbsp&nbsp<i class="icon-remove icon-black"></i></a><br>';
+        var template='<hr"/"><input type="text" class="input-xlarge field listitems" name="listitem'+aid +'z'+ j +'" id="menuitemrem' + j +'" value="Item""/"><a href="#'+aid+'" class="remove removeitems" style="text-decoration:none;text-align:center;" id="rem' + j +'">&nbsp&nbsp<i class="icon-remove-sign icon-black"></i></a><br>';
 $(template).fadeIn('slow').appendTo('#items'+aid);
                 j++;
         });//end of additem handler

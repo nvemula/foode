@@ -1,15 +1,25 @@
    <div class="container" id="recipeinfo">
-                <div class="row-fluid">
-                  <div class="span12" align="center" style="padding-top:3%;">
+                <div class="row-fluid"><a href="{%url home %}">  
+                 <img style="float:left;margin-top:3%;" src="{{STATIC_URL}}img/foode.png" height="60" width="65" title="Explore & Eat the Best"></a>
+                  <div class="span8" align="center" style="padding-top:3%;">
+
                        <div class="input-append">
-                       <form class="form-horizontal" method="GET" action="{% url restaurants %}">
-           <input id="sbox" class="input-xxlarge" type="text" placeholder="Enter Food Item" name="fooditem" value="{{menuitem}}" style="height:3%;width:50%;" autocomplete="off">
-                           <button class="btn btn-info" type="submit" style="height:4%;"><i class="icon-search icon-white"></i></button>
+                       <form id="search-form"  class="form-horizontal" method="POST" action="{% url restaurants %}">
+                       {% csrf_token %} 
+           <input id="sbox" class="input-medium" type="text" placeholder="Enter Food Item" name="fooditem" value="{{menuitem}}" autocomplete="off">
+
+              <input id="locbox" type="text" class="hide input-medium" name="location" value="{{location}}" placeholder="Enter Location" autofocus="autofocus"/>
+                           <input type="text" id="longi" class="input-medium hide" name="longitude" value=""/>
+                           <input type="text" id="lati" class="input-medium hide" name="latitude" value=""/>
+                           <button class="btn btn-info" type="submit"><i class="icon-search icon-white"></i></button>
+
+
                        </form>
                        </div>
+               <a class="" id="changeloc" href="#" title="Change Location"><i class="icon-map-marker icon-black"></i> Location</a>
                    </div>
                    
-     </div>     </div>
+     </div>     </div><hr/>
     
 
 
@@ -30,7 +40,7 @@
          <span style="display:inline;float:left;color:green;">{{data.items.0.0}}&nbsp&nbsp<div style="display:inline;float:right;" class="rstar" rating="{{data.items.0.1}}"></div></span></td> </tr> 
                 
                  <tr>   <td> <i class="icon-info-sign icon-black"></i> {{ value.phone }}</td><td><i class="icon-time icon-black"></i> {{value.hours}}</td></tr>
-                                 <tr>    <td colspan="2"> <i class="icon-map-marker icon-black"></i> {{ value.address }}</td></tr>
+                                 <tr>    <td colspan="2"> <a target="_blank" href="http://maps.google.com/maps?q={{value.address}}"> <i class="icon-map-marker icon-black"></i> {{ value.address }}</a></td></tr>
 
                        {%endifequal%}
 

@@ -12,8 +12,8 @@ var rest_id = {{restaurant.id}};
 {% endblock %}
 {% block body %}
 <div class="container" id="recipeinfo">
-                <div class="row">
-                  <div class="span12" align="center"><br>
+                <div class="row-fluid">  <img style="float:left;margin-left:6%;" src="{{STATIC_URL}}img/foode.png" height="45" width="135" title="Explore & Eat the Best"> 
+                  <div class="span8" align="center"><br>
                        <div class="btn-group">
                                 <a id="menu_book" href="#menu_book" class="btn btn-success active"><i class="icon-book icon-white"></i> Menu Book</a>
                                <a id="basic_info" href="#basic_info" class="btn btn-info"><i class="icon-info-sign icon-white"></i> Info</a>
@@ -25,9 +25,8 @@ var rest_id = {{restaurant.id}};
                   </div>
                 </div>     
 </div>
-<br><br>
-    
-<div style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:550px;height:auto;">
+
+<div style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:570px;height:auto;">
 <div class="container" class="tab-content">
                 <div class="row active hide" id="editbasic">
                                   <div class="span4">
@@ -37,8 +36,8 @@ var rest_id = {{restaurant.id}};
                                                <li> <a href="#" id="advancedtab"> Advanced<i class="icon-chevron-right"></i></a></li>
                                         </ul>
                                    </div>
-                                   <div class="span4">
-                                       <div id="advanced" class="hide">
+                                   <div class="span4 animated fadeInRight">
+                                       <div id="advanced" class="hide fadeInRight">
                                         <br>
                                      <form  enctype="multipart/form-data" id="slug-editform" method="POST" action="{%url slugofrest restaurant.id %}" class="form-inline">
                                       <legend>URL</legend>
@@ -50,7 +49,7 @@ var rest_id = {{restaurant.id}};
                                      <legend>Delete</legend>
                                         <a id="del_res" href="#delres" data-toggle="modal" style="text-decoration:none;" title="Deletes everything">Delete this restaurant</a>        
                                      </div>
-                                      <div id="basicsettings"><br>
+                                      <div id="basicsettings" class="fadeInRight"><br>
                                         <form enctype="multipart/form-data" method="POST" action="" class="form-vertical">
                                                <div style="text-align:center;" id="formdiv"> 
                                                       {{ restaurant_form|as_bootstrap }}
@@ -68,15 +67,16 @@ var rest_id = {{restaurant.id}};
                               <div  align="center" style="padding-top:200px;"> 
                                   <h4>Want to make changes?</h4><h4>Click Edit</h4>
                              </div> </div>
-                        <div class="span4" id="foodlists"><br>
-                                  <a href="{% url describe_restaurant restaurant.id%}"> <h4 style="float:left;color:green;">{{restaurant.name}}</h4></a><br>
+                        <div class="span4 animated fadeInLeft" id="foodlists"><br>
+                                  <a href="{% url describe_restaurant restaurant.id%}"> <h4 style="float:left;color:green;margin-left:65px;">{{restaurant.name}}</h4></a><br>
                                    <div class="foodlisttabs">
                                         <ul class="nav nav-list sidenav" id="foodlist-content">
                                                 <li class="foodlist-template">
                                                 <a href="#foodlist" class="dynamicfoodlists"> Food List</a></li>
                                         </ul><br>
+                                        <div class="span2" style="margin-left:90px;">
                                          <a class="btn" style="text-align:center;" href="#" id="editlist"><i class="icon-edit icon-black"></i> Edit</a>
-                                       <a class="hide btn btn-primary addlists" style="text-align:center;" href="#" id=""><i class="icon-plus icon-white"></i> Category</a><br>
+                                      </div> <a class="hide btn btn-primary addlists" style="text-align:center;" href="#" id=""><i class="icon-plus icon-white"></i> Category</a><br>
                                    </div>
                                    <div class="currentlists hide"><br> <br>
                                              <form class="prelists" method="POST" action="{% url editmenulist restaurant.id %}">
@@ -97,12 +97,12 @@ var rest_id = {{restaurant.id}};
                                                 <div id="editingfoodlists" class="hide span8" style="background:url({{STATIC_URL}}img/solid.png);min-height:500px;height:auto;"><div  align="center" style="padding-top:225px;"> 
                                    <h4>Editing Food Categories </h4>
                              </div>  </div>
-                        <div id="menuitemsbook" class="span8 container" style="background:url({{STATIC_URL}}img/solid.png);min-height:500px;height:auto;">
+                        <div id="menuitemsbook" class="span8 container animated fadeInRight" style="background:url({{STATIC_URL}}img/solid.png);min-height:500px;height:auto;">
                                  <div class="currentmenuitems" align="center">
                              <div id="resultcitems" class="hide" align="center" style="padding-top:225px;"> 
                                    <h4>No Food Categories present :( </h4><h4>Click Edit to Add </h4>
                              </div> 
-                             <form class="preitems" method="POST" action="{% url editmenuitem restaurant.id %}">
+                             <form class="preitems animated fadeInRight" method="POST" action="{% url editmenuitem restaurant.id %}">
                              <div class="preaddeditems" align="center">
                                  <h4 style="color:white;"></h4><hr/> <br>                                
                                  
@@ -129,8 +129,8 @@ var rest_id = {{restaurant.id}};
                                                                                  <span id=""></span>
                                        <br>
                          </div>
-                         <div id="menuitemsresultcontent" class="hide">
-                         <div id="previewmenu"><h4 style="float:left;">&nbspMenu Book Preview - {{restaurant.name}}
+                         <div id="menuitemsresultcontent" class="hide animated fadeInLeft">
+                         <div id="previewmenu" class="animated fadeInRight"><h4 style="float:left;">&nbspMenu Book Preview - {{restaurant.name}}
                           </h4> <a href="#" id="editagain" style="text-decoration:none;float:right;"><h5>Edit&nbsp&nbsp&nbsp</h5></a>&nbsp <a style="text-decoration:none;float:right;" href="{%url describe_restaurant restaurant.id %}"><h5>Go back&nbsp&nbsp&nbsp</h5></a></div><hr/>
                           <h4 style="text-align:center;" id="menuresult" class=" hide">Menu Book has not been updated yet :(
                           </h4> 

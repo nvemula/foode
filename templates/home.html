@@ -9,17 +9,21 @@
   {% if flavour == "mobile" %}
             <meta name="viewport" content="width=320, initial-scale=1.0,maximum-scale=1.0">
        {%else%}<meta name="viewport" content="width=500, initial-scale=1.0,maximum-scale=1.0">
+     <link href="{{STATIC_URL}}css/animate.css" rel="stylesheet"> 
        {%endif%}
 
     <meta name="description" content="Explore the restaurants with most tasty fooditems">
-     <link rel="shortcut icon" href="{{ STATIC_URL }}img/food.png" />
-     <link rel="apple-touch-icon" href="{{ STATIC_URL }}img/apple.png" />
+     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
+     <link rel="apple-touch-icon" href="{{ STATIC_URL }}img/apple-touch.png" />
      <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
      <link href="{{STATIC_URL}}css/bootstrap-responsive.min.css" rel="stylesheet">
      <link href="{{STATIC_URL}}css/extra.css" rel="stylesheet"> 
+    
+
      <script src="{{STATIC_URL}}js/jquery-1.8.min.js"></script>
      <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
-          <script src="{{STATIC_URL}}js/bootstrap-typeahead.js"></script>
+
+     <script src="{{STATIC_URL}}js/bootstrap-typeahead.js"></script>
      <style type="text/css"> 
 @font-face
 {
@@ -41,42 +45,49 @@ src: url('{{STATIC_URL}}font/radio.ttf')
             
      {%endblock%}
 
-
+      
 
 {%block bodyextra%}{%endblock%}
 {%block autocomplete %}
 <script>
- 
+
 $('#sbox').typeahead({
     source: function (typeahead, query) {
          if(query.length>1){
-        return $.get('/search/autocomplete?fooditem='+query+'', function (data) {
+             return $.get('/search/autocomplete?fooditem='+query+'', function (data) {
             return typeahead.process(data);
-        });
-      }
-    }
+           });
+          }
+        },
+    onselect:function(){
+$("#search-form").submit();
+ }
 });
 
-var data_src;
+
+$(function(){
+
+if (navigator.geolocation)
+    {
+
+    var psn = navigator.geolocation.getCurrentPosition(showPosition,showError);
+
+   }
+else{
+alert("Geolocation is not supported by this browser.");}
 
 
-$("#ssbox").keypress(function(e) {
- var value = this.value; 
- value = value + String.fromCharCode(e.which)
-if (value.length>1){
-$.ajax({
-                     url:"/search/autocomplete/?fooditem="+value+"", // the file to call
-                     success: function(response) { // on success..
-                     data_src = response;
-                     if(data_src.length>0){
-                       $('#sbox').typeahead({source:data_src});
-                     }
-                      // update the DIV
-                 }
-               });//end of ajax request autocomplete
-}
+
 });
 
+function showError(error){
+//alert(error.message);
+};
+function showPosition(position)
+  {
+  $("#longi").attr("value",position.coords.longitude);	
+  $("#lati").attr("value",position.coords.latitude);	
+  }
 </script>
 
 {%endblock%}

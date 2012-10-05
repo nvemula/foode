@@ -33,7 +33,10 @@ $('#menuresult').show();
 }  
 
       $('.rstar').raty({
-
+     size:25,
+     starOn:'on-big.png',
+     starOff:'off-big.png',
+     starHalf:'half-big.png',
      start: function() {
      return $(this).attr('rating');
   },

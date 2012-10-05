@@ -19,6 +19,20 @@ $('.rstar').raty({
      return $(this).attr('rating');
   },
 });
+
+$('#changeloc').click(function(){
+$(this).hide();
+{% if flavour == "mobile" %}
+$('#sbox').hide();
+{%else%}
+$('#sbox').removeClass('span6');
+$('#sbox').addClass('span4');
+$('#sbox').addClass('animated flip');
+$('#locbox').addClass('animated bounceInLeft');
+
+{%endif%}
+$('#locbox').show();
+});
 </script>
 
 {%endblock%}

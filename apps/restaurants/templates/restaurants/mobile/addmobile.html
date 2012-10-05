@@ -1,17 +1,17 @@
 {% load i18n %}
 {% load bootstrap_tags %}
-     <br>
+     
       <div class="container">
    
       
-    <br><div class="row">
-   <div class="span12" style="background:white;">
-   <br><h3 style="text-align:center;color:silver;">Add Restaurant</h3><hr/>
-    <form enctype="multipart/form-data" method="POST" action="" class="form-horizontal" >
+    <div class="row">
+   <div class="span12" style="background:white;" align="center">
+   <br>                   <a href="{%url home %}">   <img src="{{STATIC_URL}}img/foode.png" height="60" width="150" title="Explore & Eat the Best"></a> <br><hr/>
+    <form enctype="multipart/form-data" method="POST" action="" class="form-vertical" >
        {% csrf_token %}
         <fieldset class="inlineLabels">
             {{ restaurant_form|as_bootstrap }}
-            <div class="form-actions">
+            <div>
                 <input type="submit" class="btn btn-success" value="{% trans 'Add' %}">
                 <a href="{% url home %}" class="btn" >Cancel</a> 
             </div>

@@ -1,41 +1,46 @@
-<div style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:80%;height:auto;">
+<div style="background:url({{STATIC_URL}}img/bgnoise.png);">
+   <div class="container" id="recipeinfo">
+                <div class="row-fluid">
+                   <a href="{%url home%}">  <img style="float:left;margin-left:6%;" src="{{STATIC_URL}}img/foode.png" height="45" width="135" title="Explore & Eat the Best"> </a>
+                  <div class="span8"  style="padding-top:2%;">
+
+                       <div class="input-append">
+                       <form id="search-form"  style="" class="form-horizontal" method="POST" action="/restaurants/">
+                        {% csrf_token %} 
+           <input id="sbox" class="input-xxlarge span6" style="margin-left:20%;" type="text" placeholder="Enter Food Item" name="fooditem" value="{{menuitem}}" autocomplete="off">
+
+                                         <input id="locbox" style="position:overlap;" type="text" class="hide input-medium" name="location" value="My Location" autofocus="autofocus" />
+
+              <input type="text" id="longi" class="input-medium hide" name="longitude" value=""/>
+                           <input type="text" id="lati" class="input-medium hide" name="latitude" value=""/>
+                           <button class="btn btn-info" type="submit" style="height:4%;"><i class="icon-search icon-white"></i></button>
+                        
+                         </form>
+                       </div>
+
+                   </div>
+                  
+     </div>     </div>
+    
+</div>
+<div style="background:url({{STATIC_URL}}img/vegbg.jpg);min-height:620px;height:auto;">
 <div class="container">
-              
-<br>
-
-           <div class="span5 offset3" >
-                    <div id="dispinfo" align="center">
-                                      <h4 style="color:green;">    {{ restaurant.name }}</h4>
-                                      <p>&nbsp<i class="icon-time icon-black"></i>&nbsp{{restaurant.hours}}</p>
-                                      <p>&nbsp<i class="icon-info-sign icon-black"></i>&nbsp{{restaurant.phone}}</p>
-                                      <p style="">&nbsp<i class="icon-map-marker icon-black"></i>&nbsp{{ restaurant.address }}</p>
-
+ <div class="row-fluid"><br>
+<div class="span4 well" style="background:white;margin-top:130px;" id="side-bar">
+                    <div id="dispinfo" align="center" style="">
+                                                          <a href="#" style="text-decoration:none;"><h4>    {{ restaurant.name }}</h4></a><hr/>
+                                      <p >  <i class="icon-time icon-black"></i>  {{restaurant.hours}}</p>
+                                      <p>  <i class="icon-info-sign icon-black"></i> {{restaurant.phone}}</p>
+                                      <p><a target="_blank" href="http://maps.google.com/maps?q={{restaurant.address}}">   <i class="icon-map-marker icon-black"></i> {{ restaurant.address }}</a></p>
+  <a style="text-decoration:none;color:orange;" class="" href="{% url edit_restaurant restaurant.id %}"><h5>Edit</h5> </a>
                                      
                    </div>
            </div>
-                   <div style="float:right;">
 
-                           <form id="search-form" class="form-horizontal" method="GET" action="/restaurants/">
-                       
-                           <input id="sbox" class="" type="text" placeholder="Search Food Items" name="fooditem" id="searchbar" autocomplete="off">
+<div class="span7">                                    
+                     
+                   <div id="menucontent" class=""  style="background:;min-height:400px;height:auto;">
 
-                            </form>
-
-<a style="text-decoration:none;float:right;" class="" href="{% url edit_restaurant restaurant.id %}"><h5>Edit</h5> </a>
-   
-                   </div>
-
-
-</div>
-</div>
-<div style="background:url({{STATIC_URL}}img/iron.png);min-height:500px;height:auto;">
-<div class="container">
-              
-
-<br>
-           <div class="span6" style="margin-left:26%;">                                    
-<br>
-                   <div id="menucontent" class="well"  style="background:url({{STATIC_URL}}img/bgnoise.png);min-height:400px;height:auto;">
                           <div id="menuresult" class=" hide" align="center" style="padding-top:130px;"><h3 style="text-align:center;" >Menu Book is empty</h3> 
 
 
@@ -47,8 +52,8 @@
                                 
                                    
                          <div id="menutable" class="menutable-template"> 
-                               <h4 style="text-align:center;"></h4><br>
-                                <table class="table table-bordered" style="background:;">
+                               <h4 class="thumbnail span4 offset4" style="text-align:center;background-color:white;"></h4><br>
+                                <table class="table table-bordered" style="background:white;">
                                  
                                    <tr class="micon">
                                      <td class="itname">
@@ -56,22 +61,23 @@
                                      </td> 
 
 
-                                    <td class="rstar" width="30%"></td>
+                                    <td class="rstar span3"></td>
                                    </tr>
                                 </table><br/>
                          </div> 
                           <div align="center">  <a id="plusitems" href="#addmenuitems" class="btn btn-primary hide"><i class="icon-plus icon-white"></i> Food</a><div><br>
                         </div>
-                        <div id="addmenuitems" class="hide">
+                        <div id="addmenuitems" class="well hide" style="background:white;">
+                              <h3 style="color:green;">Food Categories in {{restaurant.name}}</h3><hr/>
                               <div class="catg" id="menuitems_content">
                                        <form id="menuitemsform" class="inputmenuitems" method="POST" action="{% url menuitem restaurant.id %}">
                                           <div class="additems-template">
-                                             <h4></h4>
-                                             <p class="new-fooditems"></p><hr/>
+                                             <h4 class="thumbnail" style="background:white;"></h4>
+                                             <p class="new-fooditems"></p>
                                           </div> 
                                        </form>
                               </div>
-                              <div>
+                              <div class="form-actions">
                               <a class="btn btn-primary hide" href="#" id="doneitems">Done</a> 
                               <a class="btn" href="#menutable" id="canceladd">Cancel</a>
                               </div><br>
@@ -80,5 +86,7 @@
                
            </div>
     </div>
-    </div>
+
+</div>
+</div>
 </div>
