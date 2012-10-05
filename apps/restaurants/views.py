@@ -85,11 +85,12 @@ def restaurants(request):
                 city = g.city(request.META['REMOTE_ADDR'])
                 if not city==None:
                    rests = Restaurant.objects.filter(address__contains=city['city'])
-          for rest in rests:
-              mitems = MenuItem.objects.filter(menuitem__contains=menuitem,resname=rest)
-              if mitems:
-                 menuitems.append(mitems[0])
-          if menuitems:
+          if rests:
+             for rest in rests:
+                 mitems = MenuItem.objects.filter(menuitem__contains=menuitem,resname=rest)
+                 if mitems:
+                    menuitems.append(mitems[0])
+             if menuitems:
                    ctype = ContentType.objects.get(app_label="restaurants", model="menuitem")
                    for mitem in menuitems:
                        res_data = {}
