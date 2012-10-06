@@ -76,14 +76,14 @@ def restaurants(request):
                 if lrests:
                    rests=lrests
              else:
-                city = str(g.city(request.META['REMOTE_ADDR']))
+                city = g.city(request.META['REMOTE_ADDR'])
                 if not city==None:
                    rests = Restaurant.objects.filter(address__contains=city['city'])
           if not loc=="":
              if not loc=="My Location":
                 rests = Restaurant.objects.filter(address__contains=loc).order_by("-added") 
           if loc=="":
-                city = g.city(str(request.META['REMOTE_ADDR']))
+                city = g.city(request.META['REMOTE_ADDR'])
                 if not city==None:
                    rests = Restaurant.objects.filter(address__contains=city['city'])
           if rests:
