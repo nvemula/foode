@@ -118,13 +118,13 @@ def restaurants(request):
                    restaurants = exactitems + matcheditems
                    return render_to_response("restaurants/restaurants.html", {
                        "restaurants":restaurants,
-                       "location":city,
+                       "location":loc,
                        "menuitem":menuitem,
                     }, context_instance=RequestContext(request))
           else:   
                 return render_to_response("restaurants/restaurants.html", {
                        "restaurants":restaurants,
-                       "location":city,
+                       "location":loc,
                        "menuitem":menuitem,
                       }, context_instance=RequestContext(request))
        else:
