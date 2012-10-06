@@ -54,6 +54,7 @@ def restaurants(request):
        menuitems = []
        rests=[]
        lrests =[]
+       city = ""
        menuitem = request.POST['fooditem']
        if menuitem:
           loc = request.POST['location']
@@ -76,16 +77,16 @@ def restaurants(request):
                 if lrests:
                    rests=lrests
              else:
-                city = g.city(request.META['REMOTE_ADDR'])
+                city = g.city(request.META['HTTP_X_REAL_IP'])['city']
                 if not city==None:
-                   rests = Restaurant.objects.filter(address__contains=city['city'])
+                   rests = Restaurant.objects.filter(address__contains=city)
           if not loc=="":
              if not loc=="My Location":
                 rests = Restaurant.objects.filter(address__contains=loc).order_by("-added") 
           if loc=="":
-                city = g.city(request.META['REMOTE_ADDR'])
+                city = g.city(request.META['HTTP_X_REAL_IP'])['city']
                 if not city==None:
-                   rests = Restaurant.objects.filter(address__contains=city['city'])
+                   rests = Restaurant.objects.filter(address__contains=city)
           if rests:
              for rest in rests:
                  mitems = MenuItem.objects.filter(menuitem__contains=menuitem,resname=rest)
