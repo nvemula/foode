@@ -46,13 +46,14 @@ def allrestaurants(request):
     
 @csrf_protect 
 def restaurants(request):
-    """ Returns the restaurants with the fooditems ordered by taste in descending order """
+    """Returns the restaurants with the fooditems ordered by taste in descending order """
     if request.method == "POST":
        restaurants = []
        exactitems = []
        matcheditems = []
        menuitems = []
        rests=[]
+       lrests =[]
        menuitem = request.POST['fooditem']
        if menuitem:
           loc = request.POST['location']
@@ -75,14 +76,14 @@ def restaurants(request):
                 if lrests:
                    rests=lrests
              else:
-                cty = g.city(str(request.META['REMOTE_ADDR']))
-                if not cty==None:
-                   rests = Restaurant.objects.filter(address__contains=cty['city'])
+                city = str(g.city(request.META['REMOTE_ADDR']))
+                if not city==None:
+                   rests = Restaurant.objects.filter(address__contains=city['city'])
           if not loc=="":
              if not loc=="My Location":
                 rests = Restaurant.objects.filter(address__contains=loc).order_by("-added") 
           if loc=="":
-                city = g.city(request.META['REMOTE_ADDR'])
+                city = g.city(str(request.META['REMOTE_ADDR']))
                 if not city==None:
                    rests = Restaurant.objects.filter(address__contains=city['city'])
           if rests:
@@ -116,13 +117,13 @@ def restaurants(request):
                    restaurants = exactitems + matcheditems
                    return render_to_response("restaurants/restaurants.html", {
                        "restaurants":restaurants,
-                       "location":loc,
+                       "location":city,
                        "menuitem":menuitem,
                     }, context_instance=RequestContext(request))
           else:   
                 return render_to_response("restaurants/restaurants.html", {
                        "restaurants":restaurants,
-                       "location":loc,
+                       "location":city,
                        "menuitem":menuitem,
                       }, context_instance=RequestContext(request))
        else:
