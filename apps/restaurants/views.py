@@ -55,9 +55,9 @@ def restaurants(request):
        rests=[]
        lrests =[]
        city = ""
-       menuitem = request.POST['fooditem']
+       menuitem = request.POST['fooditem'].lstrip().rstrip()
        if menuitem:
-          loc = request.POST['location']
+          loc = request.POST['location'].lstrip().rstrip()
           g = GeoIP()
           if loc=="My Location":
              longi = request.POST['longitude'] 
@@ -88,11 +88,8 @@ def restaurants(request):
                 if not city==None:
                    rests = Restaurant.objects.filter(address__contains=city)
           if rests:
-             for rest in rests:
-                 mitems = MenuItem.objects.filter(menuitem__contains=menuitem,resname=rest)
-                 if mitems:
-                    menuitems.append(mitems[0])
-             if menuitems:
+                 menuitems = MenuItem.objects.filter(menuitem__contains=menuitem,resname__in=rests)
+                 if menuitems:
                    ctype = ContentType.objects.get(app_label="restaurants", model="menuitem")
                    for mitem in menuitems:
                        res_data = {}
@@ -121,8 +118,14 @@ def restaurants(request):
                        "location":loc,
                        "menuitem":menuitem,
                     }, context_instance=RequestContext(request))
+                 else:   
+                    return render_to_response("restaurants/restaurants.html", {
+                       "restaurants":restaurants,
+                       "location":loc,
+                       "menuitem":menuitem,
+                      }, context_instance=RequestContext(request))
           else:   
-                return render_to_response("restaurants/restaurants.html", {
+                    return render_to_response("restaurants/restaurants.html", {
                        "restaurants":restaurants,
                        "location":loc,
                        "menuitem":menuitem,
