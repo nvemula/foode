@@ -9,7 +9,7 @@
 
                        <form id="search-form" class="form-horizontal" method="POST" action="/restaurants/">
  {% csrf_token %} 
-                          <input id="sbox" class="xlarge span6" type="text" value="" placeholder="Enter Food Item" name="fooditem" style="height:4%;width:50%;" autofocus="autofocus" data-provide="typeahead" autocomplete="off" />
+                          <input id="sbox" class="xlarge span6" type="text" value="" placeholder="Enter Food Item or Cuisine or Restaurant " name="fooditem" style="height:4%;width:50%;" autofocus="autofocus" data-provide="typeahead" autocomplete="off" />
                            <input type="text" class="hide input-medium" name="location" value="My Location"/>
                            <input type="text" id="longi" class="input-medium hide" name="longitude" value=""/>
                            <input type="text" id="lati" class="input-medium hide" name="latitude" value=""/>

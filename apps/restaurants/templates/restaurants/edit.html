@@ -12,7 +12,7 @@ var rest_id = {{restaurant.id}};
 {% endblock %}
 {% block body %}
 <div class="container" id="recipeinfo">
-                <div class="row-fluid">  <img style="float:left;margin-left:6%;" src="{{STATIC_URL}}img/foode.png" height="45" width="135" title="Explore & Eat the Best"> 
+                <div class="row-fluid"> <a href="{%url home%}"> <img style="float:left;margin-left:6%;" src="{{STATIC_URL}}img/foode.png" height="45" width="135" title="Explore & Eat the Best"> </a>
                   <div class="span8" align="center"><br>
                        <div class="btn-group">
                                 <a id="menu_book" href="#menu_book" class="btn btn-success active"><i class="icon-book icon-white"></i> Menu Book</a>

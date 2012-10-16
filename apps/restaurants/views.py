@@ -53,7 +53,11 @@ def restaurants(request):
        matcheditems = []
        menuitems = []
        rests=[]
+       mlists = []
        lrests =[]
+       trestx=[]
+       listx = []
+       total_res=[]
        city = ""
        menuitem = request.POST['fooditem'].lstrip().rstrip()
        if menuitem:
@@ -88,6 +92,19 @@ def restaurants(request):
                 if not city==None:
                    rests = Restaurant.objects.filter(address__contains=city)
           if rests:
+                 trests = rests.filter(name__contains=menuitem)
+                 for trest in trests:
+                     tem_data={}
+                     tem_data["restaurant"]=trest
+                     tem_data[""]=""
+                     trestx.append(tem_data) 
+                 menulists = MenuList.objects.filter(listname__contains=menuitem,res__in=rests)
+                 if menulists:
+                    for mlist in menulists:
+                        lis_data = {}
+                        lis_data["restaurant"] = mlist.res
+                        lis_data[mlist.listname] = mlist.listname
+                        listx.append(lis_data)
                  menuitems = MenuItem.objects.filter(menuitem__contains=menuitem,resname__in=rests)
                  if menuitems:
                    ctype = ContentType.objects.get(app_label="restaurants", model="menuitem")
@@ -112,18 +129,14 @@ def restaurants(request):
                           matcheditems.append(res_data)
                    exactitems = sorted(exactitems,reverse=True) 
                    matcheditems = sorted(matcheditems,reverse=True) 
-                   restaurants = exactitems + matcheditems
-                   return render_to_response("restaurants/restaurants.html", {
+                   total_res = exactitems + matcheditems
+                 
+                 restaurants = trestx + listx + total_res
+                 return render_to_response("restaurants/restaurants.html", {
                        "restaurants":restaurants,
                        "location":loc,
                        "menuitem":menuitem,
                     }, context_instance=RequestContext(request))
-                 else:   
-                    return render_to_response("restaurants/restaurants.html", {
-                       "restaurants":restaurants,
-                       "location":loc,
-                       "menuitem":menuitem,
-                      }, context_instance=RequestContext(request))
           else:   
                     return render_to_response("restaurants/restaurants.html", {
                        "restaurants":restaurants,

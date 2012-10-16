@@ -7,7 +7,7 @@
                        <div class="input-append">
                        <form id="search-form"  style="" class="form-horizontal" method="POST" action="/restaurants/">
                         {% csrf_token %} 
-           <input id="sbox" class="input-xxlarge span6" style="margin-left:20%;" type="text" placeholder="Enter Food Item" name="fooditem" value="{{menuitem}}" autocomplete="off">
+           <input id="sbox" class="input-xxlarge span6" style="margin-left:20%;" type="text" placeholder="Search Food" name="fooditem" value="{{menuitem}}" autocomplete="off">
 
                                          <input id="locbox" style="position:overlap;" type="text" class="hide input-medium" name="location" value="{{location}}" autofocus="autofocus" />
 

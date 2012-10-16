@@ -20,8 +20,8 @@ class RestaurantForm(forms.ModelForm):
             return
         # if a restaurant with that title already exists...
         if not self.is_update:
-            if Restaurant.objects.filter(name=self.cleaned_data['name']).count() > 0:
-                raise forms.ValidationError(_("There is already this restaurant in the database"))
+            if Restaurant.objects.filter(phone=self.cleaned_data['phone']).count() > 0:
+                str="Different"
         return self.cleaned_data
     
     class Meta:
@@ -44,7 +44,7 @@ class RestaurantEditForm(forms.ModelForm):
             return
         # if a restaurant with that title already exists...
         if not self.is_update:
-            if Restaurant.objects.filter(name=self.cleaned_data['name']).count() > 0:
+            if Restaurant.objects.filter(phone=self.cleaned_data['phone']).count() > 0:
                 raise forms.ValidationError(_("There is already this restaurant in the database"))
         return self.cleaned_data
     

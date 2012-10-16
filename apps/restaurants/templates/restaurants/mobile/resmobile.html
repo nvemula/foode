@@ -6,7 +6,7 @@
                        <div class="input-append">
                        <form id="search-form"  class="form-horizontal" method="POST" action="{% url restaurants %}">
                        {% csrf_token %} 
-           <input id="sbox" class="input-medium" type="text" placeholder="Enter Food Item" name="fooditem" value="{{menuitem}}" autocomplete="off">
+           <input id="sbox" class="input-medium" type="text" placeholder="Search Food" name="fooditem" value="{{menuitem}}" autocomplete="off">
 
               <input id="locbox" type="text" class="hide input-medium" name="location" value="{{location}}" placeholder="Enter Location" autofocus="autofocus"/>
                            <input type="text" id="longi" class="input-medium hide" name="longitude" value=""/>
