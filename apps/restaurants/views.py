@@ -168,8 +168,8 @@ def add_restaurant(request):
           new_restaurant = restaurant_form.save(commit=False)
           new_restaurant.save(csrf(request))
           naam = request.POST['name']
-          phone = request.POST['phone']
-          restaurant = Restaurant.objects.get(name=naam,phone=phone)
+          address = request.POST['address']
+          restaurant = Restaurant.objects.get(name=naam,address=address)
           s = Slog(content_object=restaurant,objname=naam)
           s.save()
           return HttpResponseRedirect(reverse("allrestaurants"))
