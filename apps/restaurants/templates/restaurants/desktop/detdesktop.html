@@ -23,10 +23,11 @@
      </div>     </div>
     
 </div>
-<div style="background:url({{STATIC_URL}}img/vegbg.jpg);min-height:620px;height:auto;">
+<div style="background:url({{STATIC_URL}}img/vegbg.png);min-height:620px;height:auto;">
 <div class="container">
  <div class="row-fluid"><br>
-<div class="span4 well" style="background:white;margin-top:130px;" id="side-bar">
+<div class="span4">
+<div class="well" style="background:white;margin-top:80px;" id="side-bar">
                     <div id="dispinfo" align="center" style="">
                                                           <a href="#" style="text-decoration:none;"><h4>    {{ restaurant.name }}</h4></a><hr/>
                                       <p >  <i class="icon-time icon-black"></i>  {{restaurant.hours}}</p>
@@ -36,7 +37,14 @@
                                      
                    </div>
            </div>
+<div class="well hide" style="background:white;">
+<p style="text-align:center;"><b>Empty Tables</b></p>
+<h1 style="text-align:center;"><a id="minus-tables" style="float:left;text-decoration:none;color:grey;">-</a> <span id="emptyno">6</span> <a id="plus-tables" style="float:right;text-decoration:none;color:grey;">+</a></h1>
 
+</div>
+<a id="plusitems" href="#addmenuitems" class="btn btn-primary hide"><i class="icon-plus icon-white"></i> Food</a>
+
+</div>
 <div class="span7">                                    
                      
                    <div id="menucontent" class=""  style="background:;min-height:400px;height:auto;">
